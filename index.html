@@ -608,8 +608,8 @@ body.dark .block::before {
   const KEYS_BLOCKS_SET1 = KEYS_DEF; 
   const KEYS_BLOCKS_SET2 = [
     KEYS_ALT_DEF.slice(0,9),
-    KEYS_ALT_DEF.slice(10,12),
-    KEYS_ALT_DEF.slice(12,13)
+    KEYS_ALT_DEF.slice(9,12),
+    KEYS_ALT_DEF.slice(12,15)
   ];
 
   const CAPS_MAP = new Map([
@@ -1050,8 +1050,7 @@ function applyTheme() { try { document.body.classList.toggle('dark', !!darkOn); 
           if (navigator.clipboard && typeof navigator.clipboard.writeText === 'function') {
             try {
               await navigator.clipboard.writeText(textToCopy);
-              copyBtn.innerHTML = '✓';
-              setTimeout(()=>{ copyBtn.innerHTML = prevHtml; }, 900);
+              
               return;
             } catch (err) {
               console.warn('navigator.clipboard failed, falling back', err);
@@ -1081,8 +1080,7 @@ function applyTheme() { try { document.body.classList.toggle('dark', !!darkOn); 
             return;
           }
 
-          copyBtn.innerHTML = '✓';
-          setTimeout(()=>{ copyBtn.innerHTML = prevHtml; }, 900);
+
 
         } catch (err) {
           console.error('Copy handler error', err);
@@ -1228,7 +1226,6 @@ try {
 
         if(reject){
           showRejectOverlay(hoveredKey, 1000);
-          try{ const prev = bindModeBtn.innerHTML; bindModeBtn.textContent = '✖'; setTimeout(()=>{ bindModeBtn.innerHTML = prev; },700); }catch(e){}
         } else {
           cancelRejectOverlay(hoveredKey);
           if(vBindings[val]) vBindings[val].forEach(old=>{ if(bindings[old]) delete bindings[old]; });
