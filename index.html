@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>Sanscrit_Keybard</title>
   <style>
-    @font-face { font-family: 'Andika'; src: url('./fonts/Andika-Regular.ttf') format('truetype'); font-weight: normal; font-style: normal; }
+    @font-face { font-family: 'Andika'; src: url('./fonts/Andika-Regular.ttf')  format('truetype') format('truetype'); font-weight: normal; font-style: normal; }
     :root { --kbd-width: 360px; --gap: 8px; --key-height: 46px; }
     html, body { height: 100%; margin: 0; font-family: 'Andika', Inter, "Segoe UI", Roboto, Arial, sans-serif; background: #f5f7fa; color: #111; }
     * { font-family: 'Andika', sans-serif !important; }
@@ -20,6 +20,17 @@
     .btn.toggle-active { background: #e8fff0; border-color: #58b16a; }
     .status { font-size: 13px; color: inherit; }
     .small { font-size: 12px; opacity: .85; }
+
+
+@font-face {
+  font-family: 'SanskritFont';
+  src: url('./fonts/L_Shobhika-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+
 
     .block {
       display: flex;
@@ -566,7 +577,7 @@ body.dark .block::before {
       ['ц','ч','ш','щ','ъ','ы'],
       ['ь','э','ю','я','ѣ'],
       ['!',',','.','…',':',';'],
-      ['?','¿','⸮','‘','’','❕'],
+      ['?','¿','⸮','‘','’'],
       ['„','“','«','»','‹','›'],
       ['-','—','_','(',')'],
       ['1','2','3','4','5','6'],
@@ -574,43 +585,46 @@ body.dark .block::before {
     ],
     [
       ['➀','➁','➂','➃','➄','➅'],
-      ['➆','`','°','√','*','^'],
-      ['+','=','≠','≥','±'],
+      ['➆', '❕', '`','°','√','*'],
+      ['^','+','=','≠','≥','±'],
       ['~','≈','|','/'],
       ['[',']','{','}','<','>'],
-      ['←','→','↓','↑','↙️','↗️']
+      ['←','→','↓','↑','↙','↗']
     ]
   ];
 
 
 const KEYS_ALT_DEF = [
-
   ['अ','आ','इ','ई','उ','ऊ'],
-  ['ऋ','ॠ','ऌ','ॡ','ए','ऐ'],
-  ['ओ','औ'],
-  ['क','ख','ग','घ','ङ','च'],
-  ['ड','ढ','ण','त','थ','द'],
-  ['ध','न','प','फ','ब','भ'],
-  ['म','य','र','ल','ळ','ऴ'],
-  ['व','श','ष','स','ह','क्ष'],
-  ['त्र','ज्ञ'],
-  ['ो','ौ','ः','ं'],
-  ['ृ','ॄ','ॢ','ॣ','े','ै'],
-  ['्','ा','ि','ी','ु','ू'],
+  ['ऋ','ॠ','ऌ','ऌ२'],
+  ['ए','ऐ','ओ','औ'],
+  ['क','ख','ग','घ','ङ'],
+  ['च','छ','ज','झ','ञ'],
+  ['ट','ठ','ड','ढ','ण'],
+  ['त','थ','द','ध','न'],
+  ['प','फ','ब','भ','म'],
+  ['य','र','ल','व'],
+  ['श','ष','स'],
+  ['ह','ळ','क्ष'],
+  [' ो',' ौ',' ः',' ं'],        
+  [' ृ',' ॄ',' ॢ',' ॣ',' े',' ै'],
+  ['्','ा',' ि',' ी',' ु',' ू'],
   ['०','१','२','३','४','५'],
   ['६','७','८','९'],
   ['।','॥']
-
 ];
 
 
-
+  function containsDevanagari(str) {
+    if (!str) return false;
+    return /[\u0900-\u097F\uA8E0-\uA8FF\u1CD0-\u1CFF]/.test(String(str));
+  }
 
   const KEYS_BLOCKS_SET1 = KEYS_DEF; 
   const KEYS_BLOCKS_SET2 = [
     KEYS_ALT_DEF.slice(0,9),
-    KEYS_ALT_DEF.slice(9,12),
-    KEYS_ALT_DEF.slice(12,15)
+    KEYS_ALT_DEF.slice(11,14),
+    KEYS_ALT_DEF.slice(14,17)
   ];
 
   const CAPS_MAP = new Map([
@@ -897,6 +911,15 @@ function applyTheme() { try { document.body.classList.toggle('dark', !!darkOn); 
               const mainText = displayTextForKey(val);
               btn.innerHTML = '<span class="key-main" aria-hidden="true">' + (mainText || '') + '</span><span class="binding-badge"></span>';
               btn.dataset.value = val;
+              
+              try {
+                const mainSpan = btn.querySelector('.key-main');
+                if (mainSpan && containsDevanagari(val)) {
+                mainSpan.style.setProperty('font-family', "'SanskritFont', 'Andika', sans-serif", 'important');
+              } else if (mainSpan) {
+                mainSpan.style.removeProperty('font-family');
+              }
+              } catch (e) { console.error('apply font to key error', e); }
 
               let longTimer = null;
               const LONG_MS = 700;
@@ -962,6 +985,21 @@ function applyTheme() { try { document.body.classList.toggle('dark', !!darkOn); 
 
 
   let blocksDefs = KEYS_BLOCKS_SET1;
+
+function updateMainTextFontByContent() {
+  try {
+    if (!mainText) return;
+    if (containsDevanagari(mainText.value)) {
+      mainText.style.setProperty('font-family', "'SanskritFont', 'Andika', sans-serif", 'important');
+    } else {
+      mainText.style.removeProperty('font-family');
+    }
+  } catch (e) {}
+}
+
+
+mainText && mainText.addEventListener('input', updateMainTextFontByContent, { passive: true });
+updateMainTextFontByContent();
 
   function renderAll(){
     try{
