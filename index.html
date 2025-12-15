@@ -5,10 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>Sanscrit_Keybard</title>
   <style>
-    @font-face { font-family: 'Andika'; src: url('./fonts/Andika-Regular.ttf')  format('truetype') format('truetype'); font-weight: normal; font-style: normal; }
+    @font-face { font-family: 'Andika'; src: url('./fonts/Andika-Regular.woff2')  format('woff2') format('woff2'); font-weight: normal; font-style: normal; }
     :root { --kbd-width: 360px; --gap: 8px; --key-height: 46px; }
     html, body { height: 100%; margin: 0; font-family: 'Andika', Inter, "Segoe UI", Roboto, Arial, sans-serif; background: #f5f7fa; color: #111; }
-    * { font-family: 'Andika', sans-serif !important; }
     .app { display: flex; height: 100vh; gap: 12px; padding: 12px; box-sizing: border-box; }
     .editor { flex: 1; display: flex; flex-direction: column; }
     textarea#mainText { flex: 1; resize: none; padding: 14px; font-size: 18px; line-height: 1.5; border-radius: 12px; border: 1px solid #A2A2A2; box-sizing: border-box; background: #fff; -webkit-user-select: text; user-select: text; overflow: auto; }
@@ -22,14 +21,29 @@
     .small { font-size: 12px; opacity: .85; }
 
 
+
 @font-face {
   font-family: 'SanskritFont';
-  src: url('./fonts/L_Shobhika-Regular.ttf') format('truetype');
-  font-weight: 400;
+  src: url('./fonts/L_Shobhika-Regular.woff2') format('woff2');
+  font-weight: 360;
   font-style: normal;
   font-display: swap;
 }
 
+
+html, body,
+textarea,
+.key,
+.btn {
+  font-family:
+  'Andika',
+    'SanskritFont',   
+    Inter,
+    "Segoe UI",
+    Roboto,
+    Arial,
+    sans-serif;
+}
 
 
     .block {
@@ -144,7 +158,6 @@
   transition: background 0.2s ease, box-shadow 0.2s ease;
 }
 
-/* ===== Темный режим ===== */
 body.dark {
   background: #000;
   color: #fff;
@@ -357,7 +370,7 @@ body.dark .block::before {
   height: 22px;
   display:block;
   transform-origin: center center;
-  transform: scale(1.6) translateX(-0.5px) translateY(1.6px); 
+  transform: scale(1.6) translateX(0px) translateY(0.6px); 
 }
 
 #backspaceBtn,
@@ -421,12 +434,401 @@ body.dark .block::before {
 }
 
 
+
+
+
+#textWrapper {
+  position: relative;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0; 
+}
+
+
+#saveBtn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+
+  width: 38px;
+  height: 38px;
+
+  background: #4a90e2;
+  color: white;
+  font-size: 20px;
+
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+  z-index: 9999;
+  user-select: none;
+}
+
+#saveModal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.55);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 999999;
+}
+
+#saveWrapper {
+  width: 320px;
+  max-height: 70vh;
+  background: white;
+  border-radius: 20px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  overflow: hidden;
+}
+
+#saveList {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.saveItem {
+  padding: 12px;
+  background: #eef4ff;
+  border-radius: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.deleteSave {
+  color: red;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.openSave {
+  font-size: 20px;
+  cursor: pointer;
+  background: none;
+  border: none;
+  margin-right: 5px;
+}
+
+#newSave {
+  display: flex;
+  gap: 10px;
+}
+
+#newSave input {
+  flex: 1;
+  padding: 8px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+}
+
+#newSave button {
+  padding: 8px 14px;
+  border-radius: 10px;
+  background: #4a90e2;
+  color: white;
+  border: none;
+}
+
+#closeSave {
+  background: #888;
+  border: none;
+  padding: 12px;
+  border-radius: 12px;
+  color: white;
+}
+
+
+#textWrapper { position: relative; display: inline-block; width: 100%; }
+#textWrapper textarea { box-sizing: border-box; width: 100%; }
+
+
+
+#saveModal { position: fixed; inset: 0; display: none; align-items: center; justify-content: center; background: rgba(0,0,0,0.55); z-index: 100000; }
+#saveWrapper { width: 320px; max-height: 75vh; background: var(--modal-bg,#fff); border-radius: 16px; padding: 18px; box-sizing: border-box; display:flex; flex-direction:column; gap:12px; overflow: hidden; }
+#saveList { flex:1; overflow-y:auto; display:flex; flex-direction:column; gap:8px; padding-right:6px; }
+.saveItem { display:flex; justify-content:space-between; align-items:center; gap:8px; padding:10px; border-radius:10px; background: #f1f7ff; }
+.saveMeta { font-size:12px; color:#666; margin-top:6px; }
+.openSave{ background:none; border:none; font-size:18px; cursor:pointer; margin-right:8px; }
+.deleteSave{ background:none; border:none; font-size:18px; cursor:pointer; color:#d44; }
+
+#newSave { display:flex; gap:8px; }
+#newSave input { flex:1; padding:8px; border-radius:10px; border:1px solid #ccc; }
+#newSave button { padding:8px 12px; border-radius:10px; border:none; background:#4a90e2; color:#fff; cursor:pointer; }
+
+#closeSave{ margin-top:6px; padding:10px; border-radius:10px; border:none; background:#888; color:white; cursor:pointer; }
+
+#saveList { -webkit-overflow-scrolling: touch; touch-action: pan-y; }
+
+
+#saveModal {
+  font-family: 'Andika', sans-serif !important;
+}
+
+#saveWrapper {
+  background: #242424 !important;
+  color: #ffffff !important;
+  border: 1px solid #333 !important;
+  font-family: 'Andika', sans-serif !important;
+}
+
+#saveWrapper h3 {
+  color: #ffffff !important;
+  font-family: 'Andika', sans-serif !important;
+}
+
+#saveList {
+  background: #1e1e1e !important;
+  border-radius: 12px;
+  padding: 6px;
+}
+
+.saveItem {
+  background: #2c2c2c !important;
+  border: 1px solid #3b3b3b !important;
+  color: #ffffff !important;
+  font-family: 'Andika', sans-serif !important;
+}
+
+.saveItem strong {
+  color: #ffffff !important;
+}
+
+.saveMeta {
+  color: #bbbbbb !important;
+}
+
+.openSave, .deleteSave {
+  background: none !important;
+  border: none !important;
+  cursor: pointer;
+  font-size: 18px;
+  color: #ffffff !important;
+}
+
+.deleteSave {
+  color: #ff5c5c !important;
+}
+
+#newSave input {
+  background: #1a1a1a !important;
+  border: 1px solid #444 !important;
+  color: #fff !important;
+  border-radius: 10px;
+  padding: 8px;
+  font-family: 'Andika', sans-serif !important;
+}
+
+#newSave button {
+  background:  #3a78ff !important;
+  color: white !important;
+  border: none;
+  border-radius: 10px;
+  padding: 8px 14px;
+  cursor: pointer;
+  font-family: 'Andika', sans-serif !important;
+}
+
+#closeSave {
+  background: #3a3a3a !important;
+  color: white !important;
+  border: none;
+  padding: 12px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-family: 'Andika', sans-serif !important;
+}
+
+#saveList::-webkit-scrollbar {
+  width: 8px;
+}
+#saveList::-webkit-scrollbar-track {
+  background: #1a1a1a;
+}
+#saveList::-webkit-scrollbar-thumb {
+  background: #444;
+  border-radius: 4px;
+}
+#saveList::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+#textWrapper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;   
+  min-height: 0;    
+}
+
+textarea#mainText {
+  flex: 1 1 auto;
+  width: 100%;
+  min-height: 0;       
+  box-sizing: border-box;
+  resize: vertical;    
+  padding: 14px;
+}
+
+
+#mobileOverlay {
+  position: fixed;
+  inset: 0;
+  background: #fff;
+  z-index: 999999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#mobileOverlay[hidden] {
+  display: none;
+}
+
+.mobileBox {
+  position: relative;
+  text-align: center;
+  max-width: 420px;
+  width: 90%;
+}
+
+.mobileIcon {
+  font-size: 64px;
+  margin-bottom: 24px;
+  fill: #242424;
+}
+
+.mobileBtn {
+  background: #242424;
+  color: #fff;
+  border: none;
+  border-radius: 999px;
+  padding: 14px 24px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.mobileRemember {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 16px;
+  font-size: 14px;
+  color: #444;
+}
+
+.mobileClose {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+
+
+.mobileIcon img {
+  width: 90px;
+  height: 90px;
+  display: block;
+  margin: 0 auto;
+}
+
+
+.mobileClose {
+  position: fixed;
+  top: 12px;
+  right: 12px;
+
+  width: 24px;
+  height: 24px;
+
+  padding: 0;
+  border: none;
+  background: none;
+
+  cursor: pointer;
+  z-index: 1000000;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mobileClose img {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+
+
+
+
   </style>
 </head>
 <body>
   <div class="app">
     <div class="editor">
-      <textarea id="mainText" placeholder="Write here..." spellcheck="false" autocapitalize="off" autocomplete="off" autocorrect="off"></textarea>
+
+<div id="textWrapper">
+  <textarea id="mainText"
+            placeholder="Write here..."
+            spellcheck="false"
+            autocapitalize="off"
+            autocomplete="off"
+            autocorrect="off"></textarea>
+
+
+
+  <div id="saveBtn" aria-label="Save" title="Save">💾</div>
+</div>
+
+<div id="saveModal" aria-hidden="true">
+  <div id="saveWrapper" role="dialog" aria-modal="true" aria-label="Saves">
+    <h3 style="margin:0 0 6px 0;">Saves</h3>
+    <div id="saveList"></div>
+
+    <div id="newSave">
+      <input id="saveName" placeholder="Title (max. 60 characters)" maxlength="60" />
+      <button id="createSave">Create</button>
+    </div>
+
+    <button id="closeSave">Close</button>
+  </div>
+</div>
+
+<div id="saveModal" aria-hidden="true">
+  <div id="saveWrapper" role="dialog" aria-modal="true" aria-label="Saves">
+    <h3>Saves</h3>
+
+    <div id="saveList"></div>
+
+    <div id="newSave">
+      <input id="saveName"
+             placeholder="Title (max. 60 characters)"
+             maxlength="60">
+      <button id="createSave">Create</button>
+    </div>
+
+    <button id="closeSave">Close</button>
+  </div>
+</div>
+
       <div style="padding-top:8px; display:flex; justify-content:space-between; align-items:center;">
         <div class="small"></div>
         <div class="small"></div>
@@ -615,10 +1017,7 @@ const KEYS_ALT_DEF = [
 
 
 
-  function containsDevanagari(str) {
-    if (!str) return false;
-    return /[\u0900-\u097F\uA8E0-\uA8FF\u1CD0-\u1CFF]/.test(String(str));
-  }
+
 
   const KEYS_BLOCKS_SET1 = KEYS_DEF; 
   const KEYS_BLOCKS_SET2 = [
@@ -1316,5 +1715,310 @@ try {
 
 })();
 </script>
+
+<style>
+  #snowCanvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    z-index: 9999;
+
+    -webkit-mask-image: linear-gradient(#000 0 0);
+    mask-image: linear-gradient(#000 0 0);
+  }
+</style>
+
+<script>
+(function() {
+
+    const canvas = document.createElement("canvas");
+    canvas.id = "snowCanvas";
+    document.body.appendChild(canvas);
+
+    const ctx = canvas.getContext("2d");
+    const DPR = window.devicePixelRatio || 1;
+
+    let flakes = [];
+
+    function targetFlakes() {
+      const base = Math.floor((canvas.width * canvas.height) / 6000);
+
+      const isMobileOrTablet =
+        window.matchMedia('(pointer: coarse)').matches ||
+        (navigator.maxTouchPoints && navigator.maxTouchPoints > 0);
+
+      return isMobileOrTablet ? Math.floor(base / 5) : base;
+    }
+
+    function resizeCanvas() {
+        const w = window.innerWidth;
+        const h = window.innerHeight;
+
+        canvas.style.width = w + "px";
+        canvas.style.height = h + "px";
+
+        canvas.width = w * DPR;
+        canvas.height = h * DPR;
+
+        ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+
+        const need = targetFlakes();
+        flakes = [];
+        for (let i = 0; i < need; i++) {
+            flakes.push(makeFlake(w, h));
+        }
+    }
+
+    function makeFlake(w, h) {
+        return {
+            x: Math.random() * w,
+            y: Math.random() * h,
+
+            r: 1.5 + Math.random() * 3.5,   
+            vy: 0.6 + Math.random() * 1.4,  
+
+            vx: -0.2 + Math.random() * 0.4, 
+
+            sway: 0.4 + Math.random() * 1.0,
+
+            phase: Math.random() * Math.PI * 2,
+
+            alpha: 0.6 + Math.random() * 0.4
+        };
+    }
+
+    function flakeColor(alpha) {
+        const dark = document.body.classList.contains("dark");
+        return dark
+            ? `rgba(255,255,255,${alpha})`
+            : `rgba(160,210,255,${alpha})`; 
+    }
+
+    function loop() {
+        const w = canvas.width / DPR;
+        const h = canvas.height / DPR;
+
+        ctx.clearRect(0, 0, w, h);
+
+        for (let flake of flakes) {
+
+            flake.phase += 0.003 + Math.random() * 0.003;
+
+            const sway = Math.sin(flake.phase) * flake.sway * 0.3;
+
+            const drift = (Math.random() - 0.5) * 0.08;
+
+            flake.x += flake.vx + sway + drift;
+            flake.y += flake.vy;
+
+            if (flake.y > h + 5 || flake.x < -10 || flake.x > w + 10) {
+                Object.assign(flake, makeFlake(w, h), { y: -10 });
+            }
+
+            ctx.beginPath();
+            ctx.fillStyle = flakeColor(flake.alpha);
+            ctx.arc(flake.x, flake.y, flake.r, 0, Math.PI * 2);
+            ctx.fill();
+        }
+
+        requestAnimationFrame(loop);
+    }
+
+    window.addEventListener("resize", resizeCanvas);
+
+    resizeCanvas();
+    loop();
+
+})();
+</script>
+
+
+
+<script>
+(function () {
+
+  const LS_KEY = 'webkbd_saves_v1';
+  const LIMIT = 20;
+
+  const textarea  = document.getElementById('mainText');
+  const saveBtn   = document.getElementById('saveBtn');
+  const modal     = document.getElementById('saveModal');
+  const saveList  = document.getElementById('saveList');
+  const createBtn = document.getElementById('createSave');
+  const nameInput = document.getElementById('saveName');
+  const closeBtn  = document.getElementById('closeSave');
+
+  if (!textarea || !saveBtn || !modal) return;
+
+  function readSaves() {
+    try { return JSON.parse(localStorage.getItem(LS_KEY) || '[]'); }
+    catch { return []; }
+  }
+
+  function writeSaves(arr) {
+    try { localStorage.setItem(LS_KEY, JSON.stringify(arr)); }
+    catch {}
+  }
+
+  function escapeHtml(s) {
+    return String(s || '').replace(/[&<>"']/g, c =>
+      ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":"&#39;"}[c])
+    );
+  }
+
+  function renderList() {
+    const arr = readSaves();
+    saveList.innerHTML = '';
+
+    arr.forEach((it, i) => {
+      const row = document.createElement('div');
+      row.className = 'saveItem';
+
+      row.innerHTML = `
+        <div>
+          <strong>${escapeHtml(it.name)}</strong>
+          <div class="saveMeta">${new Date(it.date).toLocaleString()}</div>
+        </div>
+        <div class="saveActions">
+          <button class="openSave" data-i="${i}">📂</button>
+          <button class="deleteSave" data-i="${i}">❌</button>
+        </div>
+      `;
+
+      saveList.appendChild(row);
+    });
+  }
+
+  saveBtn.addEventListener('click', () => {
+    renderList();
+    modal.style.display = 'flex';
+    modal.setAttribute('aria-hidden', 'false');
+    setTimeout(() => nameInput?.focus(), 60);
+  });
+
+  closeBtn.addEventListener('click', () => {
+    modal.style.display = 'none';
+    modal.setAttribute('aria-hidden', 'true');
+  });
+
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) closeBtn.click();
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modal.style.display === 'flex') {
+      closeBtn.click();
+    }
+  });
+
+  saveList.addEventListener('click', (e) => {
+    const i = e.target.dataset.i;
+    if (i == null) return;
+
+    const arr = readSaves();
+
+    if (e.target.classList.contains('openSave')) {
+      textarea.value = arr[i].text;
+      textarea.dispatchEvent(new Event('input', { bubbles: true }));
+      closeBtn.click();
+    }
+
+    if (e.target.classList.contains('deleteSave')) {
+      arr.splice(i, 1);
+      writeSaves(arr);
+      renderList();
+    }
+  });
+
+  createBtn.addEventListener('click', () => {
+    const name = nameInput.value.trim();
+    if (!name) return alert('Enter a name');
+
+    let arr = readSaves();
+    if (arr.length >= LIMIT) arr.shift();
+
+    arr.push({
+      name: name.slice(0,60),
+      text: textarea.value,
+      date: Date.now()
+    });
+
+    writeSaves(arr);
+    nameInput.value = '';
+    renderList();
+  });
+
+})();
+</script>
+
+
+<div id="mobileOverlay" hidden>
+  <div class="mobileBox">
+    <button class="mobileClose" aria-label="Close">
+  <img src="close.svg" alt="">
+</button>
+
+
+<div class="mobileIcon">
+  <img src="infoIcon.svg" alt="">
+</div>
+
+
+
+    <button id="goMobile" class="mobileBtn">
+      Перейти на версию для смартфонов
+    </button>
+
+    <label class="mobileRemember">
+      <input type="checkbox" id="rememberChoice">
+      Запомнить выбор
+    </label>
+  </div>
+</div>
+
+
+<script>
+(function () {
+  const KEY = 'pc_mobile_warning_hidden';
+
+  if (localStorage.getItem(KEY) === '1') return;
+
+
+const isTouch =
+  window.matchMedia('(pointer: coarse)').matches ||
+  navigator.maxTouchPoints > 0;
+
+
+
+
+  if (!isTouch) return;
+
+  const overlay = document.getElementById('mobileOverlay');
+  const closeBtn = overlay.querySelector('.mobileClose');
+  const goBtn = document.getElementById('goMobile');
+  const remember = document.getElementById('rememberChoice');
+
+  overlay.hidden = false;
+
+  function hide() {
+    overlay.hidden = true;
+    if (remember.checked) {
+      localStorage.setItem(KEY, '1');
+    }
+  }
+
+  closeBtn.addEventListener('click', hide);
+
+  goBtn.addEventListener('click', () => {
+    if (remember.checked) {
+      localStorage.setItem(KEY, '1');
+    }
+    window.location.href = 'https://raviiik.github.io/-webKeyboard/';
+  });
+})();
+</script>
+
+
 </body>
 </html>
